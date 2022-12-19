@@ -1,0 +1,19 @@
+.grid {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -16px;
+}
+.grid-item {
+  box-sizing: border-box;
+  flex-basis: 100%;
+  flex-grow: 0;
+  max-width: 100%;
+  padding-top: 16px;
+  @media (min-width: 600px) {
+    flex-basis: 50%;
+    max-width: 50%;
+    padding-left: 10px;
+  }
+}

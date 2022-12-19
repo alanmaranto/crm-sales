@@ -1,0 +1,14 @@
+@import "./globals.scss";
+
+html,
+body {
+  font-family: "Montserrat", "Helvetica";
+  width: 100%;
+  height: 100%;
+  background-color: $bg-primary;
+  color: $font-primary;
+
+  .Toastify__progress-bar--dark {
+    // background: $murket-primary;
+  }
+}
