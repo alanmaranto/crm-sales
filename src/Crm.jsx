@@ -1,6 +1,5 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { Grid, GridItem, Card, Paper, List } from "./atomic-ui/atoms";
+import { Grid, GridItem, Card, Paper } from "./atomic-ui/atoms";
+import { ListPaper } from "./atomic-ui/molecules";
 import { Layout } from "./components/layouts";
 import "./crm.scss";
 
@@ -36,38 +35,34 @@ function CRMPipeline() {
         <GridItem>
           <Paper>
             <Card header="Sales leads" />
-            <Paper>
-              <List>
-                {salesLeads.map(
-                  ({ nationalId, birthdate, firstName, lastName, email }) => (
-                    <Card type="secondary" key={nationalId}>
-                      <div className="crm-card-container">
-                        <span className="crm-card-container--name">
-                          {firstName} {lastName}
+            <ListPaper>
+              {salesLeads.map(
+                ({ nationalId, birthdate, firstName, lastName, email }) => (
+                  <Card type="secondary" key={nationalId}>
+                    <div className="crm-card-container">
+                      <span className="crm-card-container--name">
+                        {firstName} {lastName}
+                      </span>
+                      <span className="crm-card-container--email">{email}</span>
+                      <div className="crm-card-container--key">
+                        Birthdate:
+                        <span className="crm-card-container--key__value">
+                          {birthdate}
                         </span>
-                        <span className="crm-card-container--email">
-                          {email}
-                        </span>
-                        <div className="crm-card-container--key">
-                          Birthdate:
-                          <span className="crm-card-container--key__value">
-                            {birthdate}
-                          </span>
-                        </div>
-                        <div className="crm-card-container--key">
-                          National Id:
-                          <span className="crm-card-container--key__value">
-                            {nationalId}
-                          </span>
-                        </div>
-                        {/* useDate-fns to visualize */}
-                        {/* <span>National Id: {nationalId}</span> */}
                       </div>
-                    </Card>
-                  )
-                )}
-              </List>
-            </Paper>
+                      <div className="crm-card-container--key">
+                        National Id:
+                        <span className="crm-card-container--key__value">
+                          {nationalId}
+                        </span>
+                      </div>
+                      {/* useDate-fns to visualize */}
+                      {/* <span>National Id: {nationalId}</span> */}
+                    </div>
+                  </Card>
+                )
+              )}
+            </ListPaper>
           </Paper>
         </GridItem>
       </Grid>
