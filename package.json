@@ -8,10 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "sales-db": "json-server --watch src/db/sales-db.json --port 3000",
-    "goverment-db": "json-server --watch src/db/goverment-db.json --port 3001",
-    "start": "concurrently \"npm run dev\" \"npm run sales-db\" \"npm run goverment-db\""
+    "national-registry-db": "json-server --watch src/db/national-registry-db.json --port 3001",
+    "national-archives-db": "json-server --watch src/db/national-archives-db.json --port 3002",
+    "start": "concurrently \"npm run dev\" \"npm run sales-db\" \"npm run national-registry-db\" \"npm run national-archives-db\""
   },
   "dependencies": {
+    "axios": "^1.2.1",
     "json-server": "^0.17.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
