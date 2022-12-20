@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, GridItem, Paper } from "../../atomic-ui/atoms";
 import { ListPaper } from "../../atomic-ui/molecules";
-import "./crm.scss";
+import { SalesUserCard } from "./SalesUserCard";
 
-export const SalesColumn = ({ users, title, status }) => {
+export const SalesColumn = ({ users, title, status, onClick }) => {
   return (
     <GridItem>
       <Paper>
@@ -11,29 +11,12 @@ export const SalesColumn = ({ users, title, status }) => {
         <ListPaper>
           {users
             .filter((user) => user.status === status)
-            .map(({ nationalId, birthdate, firstName, lastName, email }) => (
-              <Card type="secondary" key={nationalId}>
-                <div className="crm-card-container">
-                  <span className="crm-card-container--name">
-                    {firstName} {lastName}
-                  </span>
-                  <span className="crm-card-container--email">{email}</span>
-                  <div className="crm-card-container--key">
-                    Birthdate:
-                    <span className="crm-card-container--key__value">
-                      {birthdate}
-                    </span>
-                  </div>
-                  <div className="crm-card-container--key">
-                    National Id:
-                    <span className="crm-card-container--key__value">
-                      {nationalId}
-                    </span>
-                  </div>
-                  {/* useDate-fns to visualize */}
-                  {/* <span>National Id: {nationalId}</span> */}
-                </div>
-              </Card>
+            .map((user) => (
+              <SalesUserCard
+                key={user.nationalId}
+                data={user}
+                onSubmit={onClick}
+              />
             ))}
         </ListPaper>
       </Paper>
