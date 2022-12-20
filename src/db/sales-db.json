@@ -38,6 +38,14 @@
       "firstName": "James",
       "lastName": "Rodriguez",
       "email": "jamesrdz@gmail.com",
+      "status": "lead"
+    },
+    {
+      "nationalId": 39005,
+      "birthdate": "12/07/1991",
+      "firstName": "Memo",
+      "lastName": "Ochoa",
+      "email": "memo@gmail.com",
       "status": "prospect"
     }
   ]

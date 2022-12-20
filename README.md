@@ -39,3 +39,13 @@ Para esto decidí utilizar el manejador de data `react query`, esta información
 
 4. Para los leads que resultaron en una comprobación fallida, se mandará un toast notificacion error con los id's que resultaron fallidos (**NTH**:e Estos permanecerán en la columna leads pero se agregará una variable en su data de forma boolean para alertar posible fraude)
 
+
+Score
+
+NATIONAL REGISTRY SCORE
+A) Si usuario SI existe en national registry y coincide con la sales DB = +20
+B) Si usuario NO existe en national registry o SI existe pero sus datos son inconsistentes = -20
+
+NATIONAL ARCHIVES SCORE
+C) Si usuario NO existe en archived registry = +20
+D) Si usuario SI existe en archived registry = -20
