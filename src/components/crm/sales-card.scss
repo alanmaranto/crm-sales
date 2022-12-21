@@ -24,15 +24,7 @@
     }
   }
   &--btn-container {
-    opacity: 1;
-    // transition: opacity ease-in-out 0.3s
     display: flex;
     justify-content: end;
-    &__btn {
-      &:hover {
-        opacity: 1;
-        cursor: pointer;
-      }
-    }
   }
 }

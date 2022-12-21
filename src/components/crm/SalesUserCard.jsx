@@ -22,14 +22,11 @@ export const SalesUserCard = ({ data, onSubmit }) => {
             <span className="sales-card-container--key__value">{data.id}</span>
           </div>
         </>
-        <div className="sales-card-container--btn-container">
-          <Button
-            // className="sales-card-container--btn-container__btn"
-            onClick={(e) => onSubmit(e, data)}
-          >
-            Run model
-          </Button>
-        </div>
+        {data.status === "prospect" ? undefined : (
+          <div className="sales-card-container--btn-container">
+            <Button onClick={(e) => onSubmit(e, data)}>Run model</Button>
+          </div>
+        )}
       </div>
     </Card>
   );
