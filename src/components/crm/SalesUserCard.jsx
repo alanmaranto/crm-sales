@@ -20,7 +20,7 @@ export const SalesUserCard = ({ data, onSubmit }) => {
           <div className="sales-card-container--key">
             National Id:
             <span className="sales-card-container--key__value">
-              {data.nationalId}
+              {data.id}
             </span>
           </div>
           {/* useDate-fns to visualize */}

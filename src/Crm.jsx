@@ -1,12 +1,17 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { useMutation } from "react-query";
 import { Grid } from "./atomic-ui/atoms";
+import Spinner from "./atomic-ui/atoms/Spinner/Spinner";
 import { SalesColumn } from "./components/crm/SalesColumn";
 import { Layout } from "./components/layouts";
 import {
   getRegistryUserByNationalId,
   getArchiveUserByNationalId,
 } from "./components/users/hooks/useNationalRegistryUsers";
-import { useSalesUsers } from "./components/users/hooks/useSalesUsers";
+import {
+  updateSalesUserStatus,
+  useSalesUsers,
+} from "./components/users/hooks/useSalesUsers";
 import { salesUserStatuses } from "./constants/sales-users";
 import { scores } from "./constants/scores";
 import { isDataMatches } from "./helpers/score";
@@ -14,59 +19,83 @@ import { isDataMatches } from "./helpers/score";
 const getSalesScore = () => Math.round(Math.random() * 100);
 
 function CRMPipeline() {
-  const { salesUsers } = useSalesUsers();
-
-  const runModel = useCallback(async (value, user) => {
-    const { birthdate, email, firstName, lastName } = user;
-    const userToCompare = {
-      birthdate,
-      email,
-      firstName,
-      lastName,
-    };
-
-    let score = 0;
-    console.log("salesScore", score);
-    const nationaRegistryUser = await getRegistryUserByNationalId(
-      user.nationalId
-    );
-    // const nationaArchivesUser = await getArchiveUserByNationalId(user);
-    console.log(nationaRegistryUser);
-
-    const userRegistryMatches = await isDataMatches(
-      userToCompare,
-      nationaRegistryUser
-    );
-    console.log("userRegistryMatches", userRegistryMatches);
-
-    //
-    if (userRegistryMatches) {
-      score += scores.NR_VALIDATED;
-    } else {
-      score += scores.NR_WRONG_DATA;
+  const [loading, setLoading] = useState();
+  const { salesUsers, refetch } = useSalesUsers();
+  const { mutate: updateStatus, isError: updateError } = useMutation(
+    updateSalesUserStatus,
+    {
+      onSuccess: () => {
+        refetch();
+      },
     }
+  );
 
-    console.log(score);
+  const runModel = useCallback(
+    async (value, user) => {
+      setLoading(true);
+      let score = 0;
+      console.log("salesScore", score);
 
-    score += getSalesScore();
+      const { birthdate, email, firstName, lastName } = user;
+      const userToCompare = {
+        birthdate,
+        email,
+        firstName,
+        lastName,
+      };
 
-    console.log("final score: " + score);
+      const nationaRegistryUser = await getRegistryUserByNationalId(user.id);
+      const nationaArchivesUser = await getArchiveUserByNationalId(user.id);
 
-    if (score > 100) score = 100;
-    console.log('mayor', score)
+      // if not found NR
+      if (!nationaRegistryUser) {
+        score += scores.NR_NOT_FOUND;
+      } else {
+        // check if sales data matches with national registry data
+        const matches = await isDataMatches(userToCompare, nationaRegistryUser);
+        if (matches) {
+          score += scores.NR_VALIDATED;
+        } else {
+          score += scores.NR_WRONG_DATA;
+        }
+      }
+      console.log("registry", score);
+      setTimeout(() => {}, 3000);
 
-    if (score > 60 && score <= 100) {
-      console.log('first', score)
-      // put request using user.nationalID to change status from lead to prospect
-      // fetch with the new status
-    }
+      if (!nationaArchivesUser.error) {
+        score += scores.NA_YES_RECORDS;
+      } else {
+        score += scores.NA_NO_RECORDS;
+      }
 
-    return score;
-  }, []);
+      console.log("archive", score);
+
+      const salesScore = getSalesScore();
+      console.log("sales", salesScore);
+      console.log("score", score);
+
+      score += salesScore;
+
+      if (score > 100) score = 100;
+
+      setTimeout(() => {
+        if (score > 60 && score <= 100) {
+          console.log("APROBADO", score);
+          updateStatus({ id: user.id, data: user, status: "prospect" });
+        } else {
+          console.log("NO-APROBADO", score);
+        }
+        setLoading(false);
+      }, 3000);
+      // return score;
+    },
+    [updateStatus, salesUsers]
+    // return {score}
+  );
 
   return (
     <Layout>
-      <div></div>
+      {loading && <Spinner />}
       <Grid>
         <SalesColumn
           users={salesUsers}

@@ -13,7 +13,7 @@ export const SalesColumn = ({ users, title, status, onClick }) => {
             .filter((user) => user.status === status)
             .map((user) => (
               <SalesUserCard
-                key={user.nationalId}
+                key={user.id}
                 data={user}
                 onSubmit={onClick}
               />

@@ -7,14 +7,13 @@ export const getRegistryUserByNationalId = async (id) => {
     if (response.status === 200) {
       const { data } = response;
       delete data.id;
-
       return response.data;
     }
   } catch (error) {
     if (error.response.status === 404) {
       return {
         error: "User not found",
-        score: scores.NR_NOT_FOUND,
+        // score: scores.NR_NOT_FOUND,
       };
     }
   }
@@ -24,9 +23,16 @@ export const getArchiveUserByNationalId = async (id) => {
   try {
     const response = await nationalArchivesDB.get(`/users/${id}`);
     if (response.status === 200) {
+      const { data } = response;
+      delete data.id;
       return response.data;
     }
   } catch (error) {
-    throw new Error(error.message);
+    if (error.response.status === 404) {
+      return {
+        error: "User's judicial records not found",
+        // score: scores.NA_NO_RECORDS,
+      };
+    }
   }
 };

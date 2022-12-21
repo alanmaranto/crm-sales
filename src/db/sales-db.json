@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "nationalId": 39000,
+      "id": 39000,
       "birthdate": "24/06/1987",
       "firstName": "Lionel",
       "lastName": "Messi",
@@ -9,7 +9,7 @@
       "status": "lead"
     },
     {
-      "nationalId": 39001,
+      "id": 39001,
       "birthdate": "05/02/1985",
       "firstName": "Cristiano",
       "lastName": "Ronaldo",
@@ -17,7 +17,7 @@
       "status": "lead"
     },
     {
-      "nationalId": 39002,
+      "id": 39002,
       "birthdate": "20/12/1998",
       "firstName": "Kylian",
       "lastName": "Mbappe",
@@ -25,7 +25,7 @@
       "status": "lead"
     },
     {
-      "nationalId": 39003,
+      "id": 39003,
       "birthdate": "01/06/1988",
       "firstName": "Javier",
       "lastName": "Hernández",
@@ -33,7 +33,7 @@
       "status": "lead"
     },
     {
-      "nationalId": 39004,
+      "id": 39004,
       "birthdate": "12/07/1991",
       "firstName": "James",
       "lastName": "Rodriguez",
@@ -41,7 +41,7 @@
       "status": "lead"
     },
     {
-      "nationalId": 39005,
+      "id": 39005,
       "birthdate": "12/07/1991",
       "firstName": "Memo",
       "lastName": "Ochoa",
