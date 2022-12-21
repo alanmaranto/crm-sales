@@ -1,22 +1,6 @@
 import { useQuery } from "react-query";
-import { salesDB } from "../../../api/axios";
+import { getSalesUsers } from "../../../providers/sales-providers";
 import { queryKeys } from "../../../react-query/constants";
-
-export const getSalesUsers = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-        const response = await salesDB.get("/users");
-        console.log("response", response);
-        if (response.status === 200) {
-          resolve(response.data);
-        }
-      } catch (error) {
-        reject(new Error(error.message));
-      }
-    }, 1000);
-  });
-};
 
 export const useSalesUsers = () => {
   const fallback = [];
@@ -37,18 +21,4 @@ export const useSalesUsers = () => {
     isFetching,
     isLoading,
   };
-};
-
-export const updateSalesUserStatus = async ({ id, data, status }) => {
-  try {
-    const response = await salesDB.put(`/users/${id}`, {
-      ...data,
-      status,
-    });
-    if (response.status === 200) {
-      return response.data;
-    }
-  } catch (error) {
-    throw new Error(error.message);
-  }
 };

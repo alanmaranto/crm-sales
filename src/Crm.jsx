@@ -1,21 +1,17 @@
 import { useCallback, useState } from "react";
 import { useMutation } from "react-query";
-import { Grid } from "./atomic-ui/atoms";
-import Spinner from "./atomic-ui/atoms/Spinner/Spinner";
+import { toast } from "react-toastify";
+import { Grid, Spinner } from "./atomic-ui/atoms";
 import { SalesColumn } from "./components/crm/SalesColumn";
 import { Layout } from "./components/layouts";
-import {
-  getRegistryUserByNationalId,
-  getArchiveUserByNationalId,
-} from "./components/users/hooks/useNationalRegistryUsers";
+import { useSalesUsers } from "./components/users/hooks/useSalesUsers";
+import { salesUserStatuses, scores } from "./constants";
+import { isDataMatches } from "./helpers/score";
 import {
   updateSalesUserStatus,
-  useSalesUsers,
-} from "./components/users/hooks/useSalesUsers";
-import { salesUserStatuses } from "./constants/sales-users";
-import { scores } from "./constants/scores";
-import { isDataMatches } from "./helpers/score";
-import { toast, ToastContainer } from "react-toastify";
+  getArchiveUserByNationalId,
+  getRegistryUserByNationalId,
+} from "./providers";
 
 const getSalesScore = () => Math.round(Math.random() * 100);
 
