@@ -1,7 +1,4 @@
 export const isDataMatches = async (obj1, obj2) => {
-    console.log(obj1)
-    console.log(obj2)
-  // Get the keys for each object
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
 
