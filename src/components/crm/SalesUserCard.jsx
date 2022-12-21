@@ -4,7 +4,13 @@ import "./sales-card.scss";
 
 export const SalesUserCard = ({ data, onSubmit }) => {
   return (
-    <Card type="secondary" key={data.nationalId}>
+    <Card
+      type="secondary"
+      key={data.nationalId}
+      style={{
+        height: data.status === "prospect" ? "134.5px" : null,
+      }}
+    >
       <div className="sales-card-container">
         <>
           <span className="sales-card-container--name">
