@@ -19,14 +19,11 @@ function CRMPipeline() {
   const [loading, setLoading] = useState();
 
   const { salesUsers, refetch, isLoading } = useSalesUsers();
-  const { mutate: updateStatus, isError: updateError } = useMutation(
-    updateSalesUserStatus,
-    {
-      onSuccess: () => {
-        refetch();
-      },
-    }
-  );
+  const { mutate: updateStatus } = useMutation(updateSalesUserStatus, {
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   const runModel = useCallback(
     async (value, user) => {
@@ -68,6 +65,7 @@ function CRMPipeline() {
 
       if (score > 100) score = 100;
 
+      // To simulate the api request
       setTimeout(() => {
         if (score > 60 && score <= 100) {
           toast.success(
