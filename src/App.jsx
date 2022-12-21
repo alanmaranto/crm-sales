@@ -8,10 +8,10 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <CRMPipeline />
+        <CRMPipeline />
       <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
 
-export default App
+export default App;

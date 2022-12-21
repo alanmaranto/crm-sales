@@ -13,7 +13,6 @@ export const getRegistryUserByNationalId = async (id) => {
     if (error.response.status === 404) {
       return {
         error: "User not found",
-        // score: scores.NR_NOT_FOUND,
       };
     }
   }
@@ -31,7 +30,6 @@ export const getArchiveUserByNationalId = async (id) => {
     if (error.response.status === 404) {
       return {
         error: "User's judicial records not found",
-        // score: scores.NA_NO_RECORDS,
       };
     }
   }

@@ -15,11 +15,13 @@ import {
 import { salesUserStatuses } from "./constants/sales-users";
 import { scores } from "./constants/scores";
 import { isDataMatches } from "./helpers/score";
+import { toast, ToastContainer } from "react-toastify";
 
 const getSalesScore = () => Math.round(Math.random() * 100);
 
 function CRMPipeline() {
   const [loading, setLoading] = useState();
+
   const { salesUsers, refetch, isLoading } = useSalesUsers();
   const { mutate: updateStatus, isError: updateError } = useMutation(
     updateSalesUserStatus,
@@ -34,7 +36,6 @@ function CRMPipeline() {
     async (value, user) => {
       setLoading(true);
       let score = 0;
-      console.log("salesScore", score);
 
       const { birthdate, email, firstName, lastName } = user;
       const userToCompare = {
@@ -59,8 +60,6 @@ function CRMPipeline() {
           score += scores.NR_WRONG_DATA;
         }
       }
-      console.log("registry", score);
-      setTimeout(() => {}, 3000);
 
       if (!nationaArchivesUser.error) {
         score += scores.NA_YES_RECORDS;
@@ -68,32 +67,27 @@ function CRMPipeline() {
         score += scores.NA_NO_RECORDS;
       }
 
-      console.log("archive", score);
-
       const salesScore = getSalesScore();
-      console.log("sales", salesScore);
-      console.log("score", score);
-
       score += salesScore;
 
       if (score > 100) score = 100;
 
       setTimeout(() => {
         if (score > 60 && score <= 100) {
-          console.log("APROBADO", score);
+          toast.success(
+            `User: ${user.firstName} ${user.lastName} is now a prospect`
+          );
           updateStatus({ id: user.id, data: user, status: "prospect" });
         } else {
-          console.log("NO-APROBADO", score);
+          toast.error(
+            `User: ${user.firstName} ${user.lastName} does not accomplish the requirements`
+          );
         }
         setLoading(false);
       }, 3000);
-      // return score;
     },
     [updateStatus, salesUsers]
   );
-
-  console.log("loading", loading);
-  console.log("isLoading", isLoading);
 
   if (isLoading) {
     return <Spinner />;

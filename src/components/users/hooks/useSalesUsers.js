@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { salesDB } from "../../../api/axios";
 import { queryKeys } from "../../../react-query/constants";
 
