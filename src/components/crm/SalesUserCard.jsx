@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Button } from "../../atomic-ui/atoms";
+import { salesUserStatuses } from "../../constants";
 import "./sales-card.scss";
 
 export const SalesUserCard = ({ data, onSubmit }) => {
@@ -8,7 +9,7 @@ export const SalesUserCard = ({ data, onSubmit }) => {
       type="secondary"
       key={data.nationalId}
       style={{
-        height: data.status === "prospect" ? "134.5px" : null,
+        height: data.status === salesUserStatuses.PROSPECT ? "134.5px" : null,
       }}
     >
       <div className="sales-card-container">
@@ -28,7 +29,7 @@ export const SalesUserCard = ({ data, onSubmit }) => {
             <span className="sales-card-container--key__value">{data.id}</span>
           </div>
         </>
-        {data.status === "prospect" ? undefined : (
+        {data.status === salesUserStatuses.PROSPECT ? undefined : (
           <div className="sales-card-container--btn-container">
             <Button onClick={(e) => onSubmit(e, data)}>Run model</Button>
           </div>
