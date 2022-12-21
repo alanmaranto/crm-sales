@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "../../atomic-ui/atoms";
+import { Card, Button } from "../../atomic-ui/atoms";
 import "./sales-card.scss";
 
 export const SalesUserCard = ({ data, onSubmit }) => {
@@ -19,20 +19,16 @@ export const SalesUserCard = ({ data, onSubmit }) => {
           </div>
           <div className="sales-card-container--key">
             National Id:
-            <span className="sales-card-container--key__value">
-              {data.id}
-            </span>
+            <span className="sales-card-container--key__value">{data.id}</span>
           </div>
-          {/* useDate-fns to visualize */}
-          {/* <span>National Id: {nationalId}</span> */}
         </>
         <div className="sales-card-container--btn-container">
-          <button
-            className="sales-card-container--btn-container__btn"
+          <Button
+            // className="sales-card-container--btn-container__btn"
             onClick={(e) => onSubmit(e, data)}
           >
             Run model
-          </button>
+          </Button>
         </div>
       </div>
     </Card>

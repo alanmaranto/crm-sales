@@ -1,0 +1,21 @@
+@import "../../../styles/main.scss";
+
+.button {
+  display: inline-flex;
+  min-width: max-content;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: $brand-primary;
+  color: white;
+  border: 0;
+  cursor: pointer;
+  transition: filter 0.5s ease, box-shadow 0.2s ease-in;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  &:hover {
+    background-color: darken($brand-primary, 10%);
+    opacity: 1;
+  }
+}

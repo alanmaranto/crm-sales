@@ -4,3 +4,4 @@ export * from "./Card/Card";
 export * from "./Paper";
 export * from "./List";
 export * from './Spinner'
+export * from './Button'
