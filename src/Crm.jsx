@@ -6,14 +6,12 @@ import { SalesColumn } from "./components/crm/SalesColumn";
 import { Layout } from "./components/layouts";
 import { useSalesUsers } from "./components/users/hooks/useSalesUsers";
 import { salesUserStatuses, scores } from "./constants";
-import { isDataMatches } from "./helpers/score";
+import { calculateScore, isDataMatches } from "./helpers/score";
 import {
   updateSalesUserStatus,
   getArchiveUserByNationalId,
   getRegistryUserByNationalId,
 } from "./providers";
-
-const getSalesScore = () => Math.round(Math.random() * 100);
 
 function CRMPipeline() {
   const [loading, setLoading] = useState();
@@ -28,43 +26,13 @@ function CRMPipeline() {
   const runModel = useCallback(
     async (value, user) => {
       setLoading(true);
-      let score = 0;
 
-      const { birthdate, email, firstName, lastName } = user;
-      const userToCompare = {
-        birthdate,
-        email,
-        firstName,
-        lastName,
-      };
-
-      const nationaRegistryUser = await getRegistryUserByNationalId(user.id);
-      const nationaArchivesUser = await getArchiveUserByNationalId(user.id);
-
-      // if not found NR
-      if (!nationaRegistryUser) {
-        score += scores.NR_NOT_FOUND;
-      } else {
-        // check if sales data matches with national registry data
-        const matches = await isDataMatches(userToCompare, nationaRegistryUser);
-        if (matches) {
-          score += scores.NR_VALIDATED;
-        } else {
-          score += scores.NR_WRONG_DATA;
-        }
-      }
-
-      if (!nationaArchivesUser.error) {
-        score += scores.NA_YES_RECORDS;
-      } else {
-        score += scores.NA_NO_RECORDS;
-      }
-
-      const salesScore = getSalesScore();
-      score += salesScore;
+      const registryUser = await getRegistryUserByNationalId(user.id);
+      const archivesUser = await getArchiveUserByNationalId(user.id);
+      let score = await calculateScore(user, registryUser, archivesUser);
+      console.log('score', score)
 
       if (score > 100) score = 100;
-
       // To simulate the api request
       setTimeout(() => {
         if (score > 60 && score <= 100) {
