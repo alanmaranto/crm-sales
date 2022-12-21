@@ -20,7 +20,7 @@ const getSalesScore = () => Math.round(Math.random() * 100);
 
 function CRMPipeline() {
   const [loading, setLoading] = useState();
-  const { salesUsers, refetch } = useSalesUsers();
+  const { salesUsers, refetch, isLoading } = useSalesUsers();
   const { mutate: updateStatus, isError: updateError } = useMutation(
     updateSalesUserStatus,
     {
@@ -90,8 +90,14 @@ function CRMPipeline() {
       // return score;
     },
     [updateStatus, salesUsers]
-    // return {score}
   );
+
+  console.log("loading", loading);
+  console.log("isLoading", isLoading);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Layout>
