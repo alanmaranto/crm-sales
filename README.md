@@ -46,6 +46,7 @@ For this I decided to use the `react query` data handler, this information will 
 1. Look for an alternative to vite due to the problems it has to integrate with the jest library and do better unit tests with jest and component tests with react-testing-library
 
 **How to test**
+
 Lionel Messi, Cristiano Ronaldo, Kylian Mbappé and Javier Hernández are users who should fail the verification.
 
 James Rodríguez and Memo Ochoa passed the verifications and only trusted the Random Sales Score Generator, whose probability of approval is 79% (based on scoring rules).
