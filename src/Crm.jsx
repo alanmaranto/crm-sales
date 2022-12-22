@@ -30,7 +30,6 @@ export function CRMPipeline() {
       const registryUser = await getRegistryUserByNationalId(user.id);
       const archivesUser = await getArchiveUserByNationalId(user.id);
       let score = await calculateScore(user, registryUser, archivesUser);
-      console.log("score", score);
 
       if (score > 100) score = 100;
       // To simulate the api request
