@@ -1,51 +1,46 @@
-# CRM Sales Automatization
+# CRM Sales Automation
 
-El siguiente ejercicio consiste en automatizar un pipeline del CRM del equipo de ventas considerando varios puntos que el equipo necesita para mover un lead a un prospecto.
+The following exercise consists of automating a CRM pipeline for the sales team considering various points that the team needs to move a lead to a prospect.
 
-Elegí mostrar la información en dos columnas: Lead y Prospect, cada columna contiene cards con la información del usuario.
+I chose to show the information in two columns: Lead and Prospect, each column contains cards with the user's information.
 
-Se asumen que los leads ya se obtuvieron y llegaron desde un determinado canal de adquisición (campaña de mkt, google o facebook ads, instragram posts/stories, etc), se guardaron en la base de datos con su información personal **(nombre, apellido, correo, canal de adquisicion, status (lead o prospecto), fecha de nacimiento, identificador nacional)**
+It is assumed that the leads were already obtained and arrived from a certain acquisition channel (marketing campaign, google or facebook ads, instagram posts/stories, etc.), they were saved in the database with their personal information **(firstName, lastName, email, status (lead or prospect), birthDate, id)**
 
-**De pensar señores**
+**Internal scoring system**
 
-`¿Puedo agregar un sistema interno de puntaje?`
-Si es un si, 
-Si el user existe 10 pts extra, no existe -5 puntos
-Si el user existe pero la información entre bases de datos no coinciden 5pts
-
-`Si no agrego un sistema interno`
-Entonces no tiene sentido que las peticiones sean en **paralelo** y deberan ejecutarse solo si se cumple la primera condición en la petición
-
-**Consideraciones**
-
-* Creé tres bases de datos, una para validar el identificador nacional, otra para validar si el usuario tiene antecedentes judiciales y por último la base de datos de ventas.
-
-* El sistema de puntaje para mover a un prospecto se basa en un score random de 0 a 100, un lead puede ser prospecto si el score es mayor a **60**
-
-* Para mover un lead a un prospecto primero se deberá comprobar que el número de identificador nacional exista en la base de datos de registros nacional, <p></p>////////si existe, entonces se deberá comprobar que la información de la base de datos de registros nacional y la base de datos de ventas coinciden.
-
-* Si existe el usuario entonces se comprobará con la base de datos de registros judiciales para comprobar si el usuario **no** cuenta con algún registro
-
-* Si no tiene un registro en la base de datos de registros judiciales entonces corremos nuestro modelo de puntaje/////
-
-**Algortimo**
-
-1. Obtenemos la información de los usuarios de la base de datos de sales y la mostramos en el pipeline.
-Para esto decidí utilizar el manejador de data `react query`, esta información contendrá los status del usuario **(lead o prospect)** y permitirá clasificarlo en su correspondiente columna (hasta aqui voy)
-
-2. Cada lead contiene el botón `run model`que accionará la comprobación automática del modelo por national id number
-
-3. El resultado de la comprobación moverá automáticamente (**NTH**: Hacer un efecto de transición de desaparación de las cards de la columna leads y un efecto de transición de aparición de las cards en la columna prospecs) los leads que fueron validados correctamente bajo las reglas de negocio antes mencionadas.
-
-4. Para los leads que resultaron en una comprobación fallida, se mandará un toast notificacion error con los id's que resultaron fallidos (**NTH**:e Estos permanecerán en la columna leads pero se agregará una variable en su data de forma boolean para alertar posible fraude)
+- Sales user matches in the National Registry database **adds 20** pts
+- Sales user does not match in the National Registry database or does not exist **subtract 100 points**
+- Sales user exists in the Judicial Archives database **subtract 100 points**
+- Sales user does not exist in the Judicial Archives database **adds 20 points**
 
 
-Score
+**Considerations**
 
-NATIONAL REGISTRY SCORE
-A) Si usuario SI existe en national registry y coincide con la sales DB = +20
-B) Si usuario NO existe en national registry o SI existe pero sus datos son inconsistentes = -20
+* I created three databases, one to validate the national identifier, another to validate if the user has a judicial record and finally the sales database.
 
-NATIONAL ARCHIVES SCORE
-C) Si usuario NO existe en archived registry = +20
-D) Si usuario SI existe en archived registry = -20
+* The scoring system to move a lead to be a prospect is if the score is greater than **60**
+
+* To move a lead to a prospect, it must first be checked in parallel that the national identifier number exists in the national registration database and the information matches the information in the sales database, in addition that the user does not have judicial records and the **random** score generated by the sales database system is also taken into account.
+
+**Technical overview**
+1. The requests to the databases are simulated handling sucess, loading and errors
+2. Feedback of the result of running the model is added through notifiers
+
+**Algorithm**
+
+1. We get the user information from the sales database and display it in the pipeline.
+For this I decided to use the `react query` data handler, this information will contain the status of the user **(lead or prospect)** and will allow it to be classified in its corresponding column (so far I go)
+
+2. Each lead contains a `run model` button that will trigger the automatic model check by id
+
+3. The verification happens by calculating and adding the result of different scoring systems already mentioned in the section `internal scoring system`
+
+3. The positive result of the verification will automatically move the positive leads to prospects
+
+
+**Future improvements**
+1. Add transition effect of a card from the lead column to prospects when the model result is positive
+2. Add a button that takes all the users that are in the "lead" column and does the check automatically
+
+**Technical improvements**
+1. Look for an alternative to vite due to the problems it has to integrate with the jest library and do better unit tests with jest and component tests with react-testing-library
