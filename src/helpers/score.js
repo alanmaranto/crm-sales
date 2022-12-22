@@ -2,7 +2,7 @@ import { scores } from "../constants";
 
 export const getSalesScore = () => Math.round(Math.random() * 100);
 
-export const isDataMatches = async (obj1, obj2) => {
+export const isDataMatches = (obj1, obj2) => {
   console.log(obj1);
   console.log(obj2);
   const keys1 = Object.keys(obj1);
@@ -65,9 +65,9 @@ export const calculateScore = async (user, registryUser, archivesUser) => {
   const archivesScore = calculateArchivesScore(archivesUser);
   const salesScore = calculateSalesScore();
 
-/*   console.log("registryScore", registryScore);
+   console.log("registryScore", registryScore);
   console.log("archivesScore", archivesScore);
-  console.log("salesScore", salesScore); */
+  console.log("salesScore", salesScore);
 
   return registryScore + archivesScore + salesScore;
 };

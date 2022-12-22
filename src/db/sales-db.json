@@ -38,7 +38,7 @@
       "firstName": "James",
       "lastName": "Rodriguez",
       "email": "jamesrdz@gmail.com",
-      "status": "prospect"
+      "status": "lead"
     },
     {
       "id": 39005,
@@ -46,7 +46,7 @@
       "firstName": "Memo",
       "lastName": "Ochoa",
       "email": "memo@gmail.com",
-      "status": "prospect"
+      "status": "lead"
     }
   ]
 }
